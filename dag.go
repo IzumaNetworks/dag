@@ -3,8 +3,9 @@ package dag
 
 import (
 	"fmt"
-	"github.com/google/uuid"
 	"sync"
+
+	"github.com/google/uuid"
 )
 
 // IDInterface describes the interface a type must implement in order to
@@ -918,6 +919,9 @@ func (d *DAG[T]) DescendantsFlow(startID string, inputs []FlowResult[T], callbac
 	// really have an input channel regardless of how we traverse the tree and spawn
 	// workers.
 	leafCount := 0
+	if len(flowIDs) == 0 {
+		leafCount = 1
+	}
 	for id := range flowIDs {
 
 		// Get all parents of this vertex.
